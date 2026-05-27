@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>eLif</title>
+
+    <link rel="icon" href="favicon.webp" type="image/webp" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Mea+Culpa&family=Syne+Mono&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/addons/p5.sound.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/TextPlugin.min.js"></script>
+  </head>
+
+  <body class="page page-hero">
+    <!--Ref Tut: https://www.youtube.com/watch?v=poaGij1gvqk-->
+    <div class="page-loader" aria-hidden="true">
+      <span class="page-loader-text">[ ... ]</span>
+    </div>
+
+    <div id="canvas-container"></div>
+
+    <section class="app-page app-page-home is-active" data-page="home" aria-hidden="false">
+      <header class="hero-header">
+        <div></div>
+
+        <div class="hero-actions">
+          <button
+            class="overlay-button overlay-button-script"
+            type="button"
+            data-sound-toggle
+          >
+            Sound
+          </button>
+        </div>
+      </header>
+
+      <main class="hero-layout">
+        <h1 class="hero-title-script">Life</h1>
+
+        <a class="hero-begin-link overlay-button-script" href="#intro" data-page-target="intro">
+          Begin
+        </a>
+      </main>
+    </section>
+
+    <section class="app-page app-page-intro" data-page="intro" aria-hidden="true">
+      <header class="hero-header">
+        <div></div>
+
+        <div class="hero-actions">
+          <a class="overlay-button overlay-button-script" href="#home" data-page-target="home">
+            Home
+          </a>
+
+          <button
+            class="overlay-button overlay-button-script"
+            type="button"
+            data-sound-toggle
+          >
+            Sound
+          </button>
+        </div>
+      </header>
+
+      <a
+        class="overlay-mark intro-life-cycle"
+        href="#home"
+        data-page-target="home"
+        data-life-cycle
+        aria-label="Home"
+      >
+        eLif
+      </a>
+
+      <p class="space-hint" data-story-hint>&lt;press SPACE to move forward&gt;</p>
+
+      <main class="intro-story-layout">
+        <section class="intro-text intro-text-center" aria-label="Intro story">
+          <p class="typed-paragraph" data-story-target></p>
+
+          <span data-intro-text="One night when my mind was wandering away from school work."></span>
+          <span data-intro-text="I thought all that I had dropped doing to focus on school."></span>
+          <span data-intro-text="All the outings I turned down. All the sleepless nights. All the personal projects I put on hold."></span>
+          <span data-intro-text="This image just occurred to me in the middle of thinking about it: life feels like a system of gears."></span>
+          <span data-intro-text="Every single aspect of your life is interlocked, so they all affect each other, which then affects your life as a whole."></span>
+          <span data-intro-text="When I was too focus on school, felt like the other parts of my life were being dragged along with it."></span>
+          <span data-intro-text="It feels like I'm trying to spin this one gear as fast as I can, but the dead weight of the others is dragging the whole machine toward breaking point."></span>
+        </section>
+      </main>
+
+      <a
+        id="intro-next"
+        class="intro-next-arrow"
+        href="#gears"
+        data-page-target="gears"
+        data-story-next
+        aria-label="Continue to gear page"
+      >
+        &rarr;
+      </a>
+
+      <a
+        id="intro-skip"
+        class="intro-skip-link"
+        href="#gears"
+        data-page-target="gears"
+        data-story-skip
+        aria-label="Skip intro"
+      >
+        skip
+      </a>
+    </section>
+
+    <section class="app-page app-page-gears" data-page="gears" aria-hidden="true">
+      <div class="gears-shell">
+        <header class="gears-header">
+          <div class="gears-intro">
+            <a
+              class="overlay-mark"
+              href="#home"
+              data-page-target="home"
+              data-life-cycle
+              aria-label="Home"
+            >
+              Life
+            </a>
+          </div>
+
+          <div class="gears-actions">
+            <a
+              class="overlay-button overlay-button-script"
+              href="#home"
+              data-page-target="home"
+              aria-label="Home"
+            >
+              Home
+            </a>
+            <button id="instruction-toggle" class="overlay-button overlay-button-script" type="button">
+              Instruction
+            </button>
+            <button
+              class="overlay-button overlay-button-script"
+              type="button"
+              data-sound-toggle
+            >
+              Sound
+            </button>
+          </div>
+        </header>
+
+        <aside class="score-panel" aria-label="Wellbeing score controls">
+          <h2 class="score-panel-title">HOW DEDICATED ARE YOU WITH THESE ASPECTS?</h2>
+
+          <div class="score-slider-list">
+            <label class="score-slider-item">
+              <span class="score-slider-label">CAREER - What you do every day</span>
+              <span class="range-shell score-range-shell" data-range-shell>
+                <input class="lifeform-range adjust-range" type="range" min="0" max="10" step="1" data-section="career" data-keys="purpose,autonomy,growth" aria-label="Career score" />
+              </span>
+            </label>
+
+            <label class="score-slider-item">
+              <span class="score-slider-label">SOCIAL - The relationships in your life</span>
+              <span class="range-shell score-range-shell" data-range-shell>
+                <input class="lifeform-range adjust-range" type="range" min="0" max="10" step="1" data-section="social" data-keys="intimacy,belonging,support" aria-label="Social score" />
+              </span>
+            </label>
+
+            <label class="score-slider-item">
+              <span class="score-slider-label">FINANCE - Your economic life</span>
+              <span class="range-shell score-range-shell" data-range-shell>
+                <input class="lifeform-range adjust-range" type="range" min="0" max="10" step="1" data-section="financial" data-keys="security,freedom,generosity" aria-label="Financial score" />
+              </span>
+            </label>
+
+            <label class="score-slider-item">
+              <span class="score-slider-label">PHYSICAL - Your body</span>
+              <span class="range-shell score-range-shell" data-range-shell>
+                <input class="lifeform-range adjust-range" type="range" min="0" max="10" step="1" data-section="physical" data-keys="energy,sleep,movement" aria-label="Physical score" />
+              </span>
+            </label>
+
+            <label class="score-slider-item">
+              <span class="score-slider-label">MENTAL - Your mind</span>
+              <span class="range-shell score-range-shell" data-range-shell>
+                <input class="lifeform-range adjust-range" type="range" min="0" max="10" step="1" data-section="mental" data-keys="mindfulness,resilience,balance" aria-label="Mental score" />
+              </span>
+            </label>
+
+            <label class="score-slider-item">
+              <span class="score-slider-label">COMMUNITY - Where you belong</span>
+              <span class="range-shell score-range-shell" data-range-shell>
+                <input class="lifeform-range adjust-range" type="range" min="0" max="10" step="1" data-section="community" data-keys="safety,pride,contribution" aria-label="Community score" />
+              </span>
+            </label>
+          </div>
+        </aside>
+
+        <div id="gear-stage" class="gear-stage" aria-hidden="true"></div>
+
+        <aside class="aspect-grid" aria-label="Wellbeing aspect gear icons">
+          <div class="aspect-gear-slot" data-gear-slot="career"></div>
+          <div class="aspect-gear-slot" data-gear-slot="social"></div>
+          <div class="aspect-gear-slot" data-gear-slot="financial"></div>
+          <div class="aspect-gear-slot" data-gear-slot="physical"></div>
+          <div class="aspect-gear-slot" data-gear-slot="mental"></div>
+          <div class="aspect-gear-slot" data-gear-slot="community"></div>
+        </aside>
+
+        <aside id="instruction-panel" class="instruction-panel" aria-hidden="true">
+          <div class="instruction-panel-header">
+            <button id="instruction-close" class="adjust-close" type="button">✳</button>
+          </div>
+          <div class="instruction-panel-body">
+            <p class="instruction-copy">
+              This machine is like us.<br />
+              Each gear represents a different part of our life.
+            </p>
+            <p class="instruction-copy"><br>
+              Adjust the sliders.<br />
+              If the machine suddenly stops, wait until it turns green then click to spin again.<br>
+              <br>
+              * Turn the music on for a better experience. *
+            </p>
+          </div>
+        </aside>
+      </div>
+
+      <a
+        id="outtro-next"
+        class="intro-next-arrow gears-outtro-arrow"
+        href="#outtro"
+        data-page-target="outtro"
+        aria-label="Continue to outtro page"
+      >
+        <p class="bored-yet">Bored yet?</p> &rarr;
+      </a>
+
+      <footer>
+        <p class="gear-instruction">
+          Adjust the sliders.<br />
+          Balance keeps the gears alive.<br />
+          Overgrowth makes them tired.
+        </p>
+      </footer>
+    </section>
+
+    <section class="app-page app-page-outtro" data-page="outtro" aria-hidden="true">
+      <header class="hero-header">
+        <div></div>
+
+        <div class="hero-actions">
+          <button
+            class="overlay-button overlay-button-script"
+            type="button"
+            data-sound-toggle
+          >
+            Sound
+          </button>
+        </div>
+      </header>
+
+      <a
+        class="overlay-mark intro-life-cycle"
+        href="#home"
+        data-page-target="home"
+        data-life-cycle
+        aria-label="Home"
+      >
+        eLif
+      </a>
+
+      <p class="space-hint" data-story-hint>&lt;press SPACE to move forward&gt;</p>
+
+      <main class="intro-story-layout">
+        <section class="intro-text intro-text-center" aria-label="Outtro story">
+          <p class="typed-paragraph" data-story-target></p>
+
+          <span data-intro-text="At the end of the day, we all can choose what we want to focus on in our own lives."></span>
+          <span data-intro-text="We will just have to accept that the other aspects will get neglected, and that neglect takes a toll on our life as a whole&mdash;which, ironically, ends up hurting the very thing we're trying to focus on."></span>
+          <span data-intro-text="- I think"></span>
+          <span data-intro-text="So, work hard, but take care of yourself. Rest when you're tired, and get back stronger. :)"></span>
+
+          <div
+            id="outtro-actions"
+            class="outtro-final-actions"
+            data-story-final-actions
+            aria-hidden="true"
+          >
+            <a class="overlay-button overlay-button-script" href="#gears" data-page-target="gears">
+              Back
+            </a>
+            <a class="overlay-button overlay-button-script" href="#home" data-page-target="home">
+              Home
+            </a>
+          </div>
+        </section>
+      </main>
+    </section>
+
+    <aside id="sound-panel" class="sound-panel" aria-hidden="true">
+      <div class="sound-panel-options">
+        <button
+          class="sound-option"
+          type="button"
+          data-sound-control="effects"
+          aria-pressed="true"
+        >
+          <span>Sound effect</span>
+          <span class="sound-checkbox" aria-hidden="true"
+            >[<span class="sound-checkmark" data-checkmark>■</span>]</span
+          >
+        </button>
+
+        <button class="sound-option" type="button" data-sound-control="bgm">
+          <span>Music</span>
+          <span class="sound-checkbox" aria-hidden="true"
+            >[<span class="sound-checkmark" data-checkmark> </span>]</span
+          >
+        </button>
+      </div>
+    </aside>
+
+    <script src="audio.js"></script>
+    <script src="sketch.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
